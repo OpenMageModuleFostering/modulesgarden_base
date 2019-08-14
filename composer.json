@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/Modulesgarden_Base",
+    "type": "magento-module",
+    "license": "OSL",
+    "homepage": "",
+    "description": "ModulesGarden Base For Magento is a free addition to any of our extensions and themes. It allows you to be up to date with currently installed ModulesGarden extensions and themes as well as view other ModulesGarden products for Magento.",
+    "authors": [
+    {
+        "name": "ModulesGarden",
+        "email": "peter@inbsgroup.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}
