@@ -1,6 +1,6 @@
 <?php
 
-/**********************************************************************
+/* * ********************************************************************
  * Customization Services by ModulesGarden.com
  * Copyright (c) ModulesGarden, INBS Group Brand, All Rights Reserved 
  * (2014-10-30, 13:23:34)
@@ -20,93 +20,44 @@
  * transferred.
  *
  *
- **********************************************************************/
+ * ******************************************************************** */
 
 /**
  * @author Grzegorz Draganik <grzegorz@modulesgarden.com>
  */
-
 class Modulesgarden_Base_Model_Observer {
-	
-	protected $_mgSections = array(
-		'mgbase_installed_extensions' => 'Installed Extensions',
-		'mgbase_store' => 'Store'
-	);
-	
-	public function adminhtml_block_html_before(Varien_Event_Observer $observer){
-		$block = $observer->getEvent()->getBlock();
-		$section = Mage::app()->getRequest()->getParam('section');
-		if ($block instanceof Mage_Adminhtml_Block_System_Config_Edit && in_array($section, array_keys($this->_mgSections))){
-			if ($section == 'mgbase_installed_extensions')
-				$block->unsetChild('save_button');
-			$block->setTitle('<img src="'.Mage::getBaseUrl('skin').'/adminhtml/base/default/modulesgardenbase/img/mgcommerce-logo.png" style="vertical-align: bottom;" /> ' . $block->__($this->_mgSections[$section]));
-			$block->setHeaderCss('modulesgardenbase_config_header');
-		}
-	}
-	
-	/**
-	 * By Cron
-	 */
-	public function fetchNotifications(){
+
+    protected $_mgSections = array(
+        'mgbase_installed_extensions' => 'Installed Extensions',
+        'mgbase_store' => 'Store'
+    );
+
+    public function adminhtml_block_html_before(Varien_Event_Observer $observer) {
+        $block      = $observer->getEvent()->getBlock();
+        $section    = Mage::app()->getRequest()->getParam('section');
+        
+        if ($block instanceof Mage_Adminhtml_Block_System_Config_Edit AND in_array($section, array_keys($this->_mgSections))) {
+            if ($section === 'mgbase_installed_extensions') {
+                $block->unsetChild('save_button');
+            }
             
-		$events = explode(',', Mage::getStoreConfig('mgbase_store/notifications/events'));
-		$client = new Modulesgarden_Base_Model_Extension_Client();
-		
-		$version = (string)Mage::getConfig()->getNode()->modules->Modulesgarden_Base->version;
-		$helper = Mage::helper('modulesgardenbase');
-		$resource = Mage::getResourceModel('modulesgardenbase/extension');
-		
-		$client->registerModuleInstance($version,  $_SERVER['SERVER_ADDR'], $_SERVER['SERVER_NAME']);
-		
-		if (in_array(Modulesgarden_Base_Model_System_Config_Source_Notificationevents::UPGRADES, $events)){
-			foreach ($resource->getModulesgardenCollection() as $installedMgExtension){
-				if ($installedMgExtension->isUpgardeAvailable()){
-					$msgTitle = $helper->__('Upgarde Of "%s" Extension From ModulesGarden Is Available (%s)', $installedMgExtension->getFriendlyName(), $installedMgExtension->getLatestVersion() );
-					
-					if (!Modulesgarden_Base_Model_Adminnotification_Inbox::exists($msgTitle)){
-						Mage::getModel('modulesgardenbase/adminnotification_inbox')->addMajor(
-							$msgTitle,
-							$helper->__('New version: %s. Download extension from modulesgarden.com and install it in your magento.', $installedMgExtension->getLatestVersion()),
-							$installedMgExtension->getChangelogUrl()
-						);
-					}
-					
-				}
-			}
-		}
-		if (in_array(Modulesgarden_Base_Model_System_Config_Source_Notificationevents::RELEASES, $events)){
-			$extensionsFromStore = Mage::getResourceModel('modulesgardenbase/extension')->getExtensionsObjectsFromModulesgardenCom();
-			foreach ($extensionsFromStore as $extensionFromStore){
-				if ($extensionFromStore->getIsNew()){
-					$msgTitle = $helper->__('New Extension From ModulesGarden: %s', $extensionFromStore->getFriendlyName());
-					
-					if (!Modulesgarden_Base_Model_Adminnotification_Inbox::exists($msgTitle)){
-						Mage::getModel('modulesgardenbase/adminnotification_inbox')->addMajor(
-							$msgTitle,
-							$helper->__('Download extension from modulesgarden.com and install it in your magento.'),
-							$extensionFromStore->getChangelogUrl()
-						);
-					}
-					
-				}
-			}
-		}
-		if (in_array(Modulesgarden_Base_Model_System_Config_Source_Notificationevents::PROMOTIONS, $events)){
-			$promotions = $client->getActivePromotions();
-			if ($promotions && isset($promotions->data->promotions)){
-				foreach ($promotions->data->promotions as $promo){
-					$msgTitle = $helper->__('New Promotion From ModulesGarden: %s', $promo->notes);
-					
-					if (!Modulesgarden_Base_Model_Adminnotification_Inbox::exists($msgTitle)){
-						Mage::getModel('modulesgardenbase/adminnotification_inbox')->addMajor(
-							$msgTitle,
-							$helper->__('Promotion Code: %s', $promo->code),
-							'http://www.modulesgarden.com'
-						);
-					}
-				}
-			}
-		}
-	}
-	
+            $block->setTitle('<img src="' . Mage::getBaseUrl('skin') . '/adminhtml/base/default/modulesgardenbase/img/mgcommerce-logo.png" style="vertical-align: bottom;" /> ' . $block->__($this->_mgSections[$section]));
+            $block->setHeaderCss('modulesgarden_base_config_header');
+        }
+    }
+
+    /**
+     * By Cron
+     */
+    public function fetchNotifications() {
+        $notificationsCore  = new Modulesgarden_Base_Model_Adminnotification_Core;
+        $messages           = $notificationsCore->getAll();
+        
+        /* @var $message Modulesgarden_Base_Model_Adminnotification_Item */
+        
+        foreach($messages as $message) {
+            Mage::getModel('modulesgarden_base/adminnotification_inbox')->addMajor($message->title, $message->description, $message->url);
+        }
+    }
+
 }

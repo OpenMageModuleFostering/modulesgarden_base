@@ -27,19 +27,20 @@
  */
 class Modulesgarden_Base_Model_System_Config_Source_Notificationevents {
 
-	CONST UPGRADES = 'upgrade';
-	CONST RELEASES = 'release';
-	CONST PROMOTIONS = 'promotions';
-	CONST OTHER = 'other';
-	
-	public function toOptionArray() {
-		$h = Mage::helper('modulesgardenbase');
-		return array(
-			array('value' => self::UPGRADES,	'label' => $h->__('Upgrade Is Ready')),
-			array('value' => self::RELEASES,	'label' => $h->__('ModulesGarden Release New Extension')),
-			array('value' => self::PROMOTIONS,	'label' => $h->__('Promotions/Discounts')),
-			array('value' => self::OTHER,		'label' => $h->__('Other Important Messages')),
-		);
-	}
+    CONST UPGRADES      = 'upgrade';
+    CONST RELEASES      = 'release';
+    CONST PROMOTIONS    = 'promotions';
+    CONST OTHER         = 'other';
+
+    public function toOptionArray() {
+        $helper = Mage::helper('modulesgarden_base');
+        
+        return array(
+            array('value' => self::UPGRADES,    'label' => $helper->__('Upgrade Is Ready')),
+            array('value' => self::RELEASES,    'label' => $helper->__('ModulesGarden Release New Extension')),
+            array('value' => self::PROMOTIONS,  'label' => $helper->__('Promotions/Discounts')),
+            array('value' => self::OTHER,       'label' => $helper->__('Other Important Messages')),
+        );
+    }
 
 }

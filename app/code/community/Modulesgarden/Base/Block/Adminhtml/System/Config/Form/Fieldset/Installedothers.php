@@ -1,6 +1,6 @@
 <?php
 
-/**********************************************************************
+/* * ********************************************************************
  * Customization Services by ModulesGarden.com
  * Copyright (c) ModulesGarden, INBS Group Brand, All Rights Reserved 
  * (2014-10-31, 10:30:00)
@@ -20,22 +20,21 @@
  * transferred.
  *
  *
- **********************************************************************/
+ * ******************************************************************** */
 
 /**
  * @author Grzegorz Draganik <grzegorz@modulesgarden.com>
  */
-
 class Modulesgarden_Base_Block_Adminhtml_System_Config_Form_Fieldset_Installedothers extends Mage_Adminhtml_Block_Abstract implements Varien_Data_Form_Element_Renderer_Interface {
 
-	protected $_template = 'modulesgardenbase/system/config/form/fieldset/installedothers.phtml';
+    protected $_template = 'modulesgardenbase/system/config/form/fieldset/installedothers.phtml';
 
-	public function render(Varien_Data_Form_Element_Abstract $element) {
-		return $this->toHtml();
-	}
-	
-	public function getExtensions(){
-		return Mage::getResourceModel('modulesgardenbase/extension')->getNonModulesgardenCollection();
-	}
+    public function render(Varien_Data_Form_Element_Abstract $element) {
+        return $this->toHtml();
+    }
+
+    public function getExtensions() {
+        return Mage::getResourceModel('modulesgarden_base/extension')->getOtherExtensions();
+    }
 
 }

@@ -49,9 +49,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $themesCount = 0; ?>
-                    <?php foreach ($this->getExtensions() as $k => $extension): ?>
-                        <?php if($extension->isModulesgardenTheme()): $themesCount++; ?>
+                    <?php if( count($this->getExtensions()) ): ?>
+                        <?php foreach ($this->getExtensions() as $k => $extension): ?>
                             <tr class="<?php echo $k%2==0 ? 'even' : ''; ?>">
                                 <td class="a-left"><?php echo $extension->getFriendlyName(); ?></td>
                                 <td class="a-left">
@@ -74,13 +73,11 @@
                                     <?php } ?>
                                 </td>
                             </tr>
-                        <?php endif ?>
-                    <?php endforeach ?>
-                            
-                    <?php if($themesCount === 0): ?>
+                        <?php endforeach ?>
+                    <?php else: ?>
                             <tr>
                                 <td colspan="4">
-                                    <?php echo $this->__('Your does not have any installed themes of ModulesGarden') ?>
+                                    <?php echo $this->__('You do not have any installed themes of ModulesGarden') ?>
                                 </td>
                             </tr>
                     <?php endif ?>

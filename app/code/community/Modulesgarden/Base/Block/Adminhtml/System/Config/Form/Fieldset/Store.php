@@ -25,7 +25,6 @@
 /**
  * @author Grzegorz Draganik <grzegorz@modulesgarden.com>
  */
-
 class Modulesgarden_Base_Block_Adminhtml_System_Config_Form_Fieldset_Store extends Mage_Adminhtml_Block_Abstract implements Varien_Data_Form_Element_Renderer_Interface {
 
     protected $_template = 'modulesgardenbase/system/config/form/fieldset/store.phtml';
@@ -35,7 +34,7 @@ class Modulesgarden_Base_Block_Adminhtml_System_Config_Form_Fieldset_Store exten
     }
 
     public function getExtensions() {
-        return Mage::getResourceModel('modulesgardenbase/extension')->getExtensionsObjectsFromModulesgardenCom(function($item) {
+        return Mage::getResourceModel('modulesgarden_base/extension')->getExtensionsObjectsFromModulesgardenCom(function($item) {
             return $item->getPrice();
         });
     }

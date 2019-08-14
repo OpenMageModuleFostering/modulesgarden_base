@@ -1,6 +1,6 @@
 <?php
 
-/**********************************************************************
+/* * ********************************************************************
  * Customization Services by ModulesGarden.com
  * Copyright (c) ModulesGarden, INBS Group Brand, All Rights Reserved 
  * (2014-11-13, 12:00:32)
@@ -20,16 +20,15 @@
  * transferred.
  *
  *
- **********************************************************************/
+ * ******************************************************************** */
 
 /**
  * @author Grzegorz Draganik <grzegorz@modulesgarden.com>
  */
-
 class Modulesgarden_Base_Block_Adminhtml_System_Config_Form_Fieldset_Modulesgarden extends Mage_Adminhtml_Block_System_Config_Form_Fieldset {
 
-	protected function _getFrontendClass($element){
-		return parent::_getFrontendClass($element) . ' modulesgarden_form_container';
-	}
+    protected function _getFrontendClass($element) {
+        return parent::_getFrontendClass($element) . ' modulesgarden_form_container';
+    }
 
 }

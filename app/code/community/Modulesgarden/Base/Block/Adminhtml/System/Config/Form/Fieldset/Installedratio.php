@@ -1,6 +1,6 @@
 <?php
 
-/**********************************************************************
+/* * ********************************************************************
  * Customization Services by ModulesGarden.com
  * Copyright (c) ModulesGarden, INBS Group Brand, All Rights Reserved 
  * (2014-10-31, 12:07:11)
@@ -20,45 +20,54 @@
  * transferred.
  *
  *
- **********************************************************************/
+ * ******************************************************************** */
 
 /**
  * @author Grzegorz Draganik <grzegorz@modulesgarden.com>
  */
-
 class Modulesgarden_Base_Block_Adminhtml_System_Config_Form_Fieldset_Installedratio extends Mage_Adminhtml_Block_Abstract implements Varien_Data_Form_Element_Renderer_Interface {
 
-	protected $_template = 'modulesgardenbase/system/config/form/fieldset/installedratio.phtml';
+    protected $_template = 'modulesgardenbase/system/config/form/fieldset/installedratio.phtml';
+    protected $_response;
+    protected $_hasError = false;
+    protected $_errorMessage = '';
+
+    public function _construct() {
+        parent::_construct();
         
-        protected $_calculated;
+        $client = new Modulesgarden_Base_Model_Check_Client;
         
-        public function _construct() {
-            parent::_construct();
-            
-            $this->_calculated = Mage::getModel('modulesgardenbase/mage')->calculateCustomization();
+        try {
+            $this->_response    = $client->fetch()->getResponse();
         }
-        
-	public function render(Varien_Data_Form_Element_Abstract $element) {
-		return $this->toHtml();
-	}
-	
-	public function getRatio() {
-		return $this->_calculated['ratio'];
-	}
-        
-        public function getRatioLabel() {
-            $labels = array_reverse(Modulesgarden_Base_Model_Mage::$ratioLabels, true);
-            $ratio  = $this->getRatio();
-            
-            foreach($labels as $minRatio => $label) {
-                if($ratio >= $minRatio) {
-                    return Mage::helper('modulesgardenbase')->__($label);
-                }
-            }
+        catch(Exception $e) {
+            $this->_hasError = true;
+            $this->_errorMessage = $e->getMessage();
         }
-	
-	public function getDebugString() {
-		return print_r($this->_calculated, true);
-	}
+    }
+    
+    public function hasError() {
+        return $this->_hasError;
+    }
+    
+    public function getErrorMessage() {
+        return $this->_errorMessage;
+    }
+
+    public function render(Varien_Data_Form_Element_Abstract $element) {
+        return $this->toHtml();
+    }
+
+    public function getRatio() {
+        return $this->_response->summary->ratio;
+    }
+
+    public function getRatioLabel() {
+        return $this->_response->summary->label;
+    }
+
+    public function getDebugString() {
+        return print_r( (array) $this->_response, true);
+    }
 
 }

@@ -41,30 +41,28 @@
                 </thead>
                 <tbody>
                     <?php foreach ($this->getExtensions() as $k => $extension): ?>
-                        <?php if( ! $extension->isModulesgardenTheme()): ?>
-                            <tr class="<?php echo $k % 2 == 0 ? 'even' : ''; ?>">
-                                <td class="a-left"><?php echo $extension->getFriendlyName(); ?></td>
-                                <td class="a-left">
-                                    <?php echo $extension->getVersion(); ?>
-                                    <?php if ($extension->isUpgardeAvailable()){ ?>
+                        <tr class="<?php echo $k % 2 == 0 ? 'even' : ''; ?>">
+                            <td class="a-left"><?php echo $extension->getFriendlyName(); ?></td>
+                            <td class="a-left">
+                                <?php echo $extension->getVersion(); ?>
+                                <?php if ($extension->isUpgardeAvailable()) { ?>
                                     <strong style="padding-left: 10px;">
                                         <?php echo $this->__('Upgrade Available!'); ?>
                                         <a href="<?php echo $extension->getChangelogUrl(); ?>" target="_blank"><?php echo $extension->getLatestVersion(); ?></a>
                                     </strong>
-                                    <?php } ?>
-                                </td>
-                                <td class="a-center">
-                                    <?php if ($extension->getWikiUrl()){ ?>
+                                <?php } ?>
+                            </td>
+                            <td class="a-center">
+                                <?php if ($extension->getWikiUrl()) { ?>
                                     <a href="<?php echo $extension->getWikiUrl(); ?>" target="_blank"><?php echo $this->__('Documentation'); ?></a>
-                                    <?php } ?>
-                                </td>
-                                <td class="a-center last">
-                                    <?php if ($extension->getChangelogUrl()){ ?>
+                                <?php } ?>
+                            </td>
+                            <td class="a-center last">
+                                <?php if ($extension->getChangelogUrl()) { ?>
                                     <a href="<?php echo $extension->getChangelogUrl(); ?>" target="_blank"><?php echo $this->__('Changelog'); ?></a>
-                                    <?php } ?>
-                                </td>
-                            </tr>
-                        <?php endif ?>
+                                <?php } ?>
+                            </td>
+                        </tr>
                     <?php endforeach ?>
                 </tbody>
             </table>

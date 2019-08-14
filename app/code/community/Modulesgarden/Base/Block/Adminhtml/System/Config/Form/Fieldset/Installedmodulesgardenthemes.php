@@ -35,7 +35,7 @@ class Modulesgarden_Base_Block_Adminhtml_System_Config_Form_Fieldset_Installedmo
 	}
 	
 	public function getExtensions(){
-		return Mage::getResourceModel('modulesgardenbase/extension')->getModulesgardenCollection();
+		return Mage::getResourceModel('modulesgarden_base/extension')->getModulesgardenThemes();
 	}
 
 }

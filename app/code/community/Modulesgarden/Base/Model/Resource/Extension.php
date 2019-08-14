@@ -28,6 +28,51 @@
 class Modulesgarden_Base_Model_Resource_Extension {
 
     protected static $_remoteResponse;
+    protected $otherExtensions = array();
+    protected $mgModules = array();
+    protected $mgThemes = array();
+    
+    public function __construct() {
+        $modulesArray   = (array) Mage::getConfig()->getNode('modules')->children();
+        
+        foreach($modulesArray as $module => $moduleDetails) {
+            if( self::isModulesgardenTheme($module) ) {
+                $type = Modulesgarden_Base_Model_Extension_Modulesgarden_Item::TYPE_THEME;
+                $this->mgThemes[] = new Modulesgarden_Base_Model_Extension_Modulesgarden_Item($type, $module, $moduleDetails->version);
+            }
+            elseif( self::isModulesgardenModule($module) ) {
+                $type = Modulesgarden_Base_Model_Extension_Modulesgarden_Item::TYPE_MODULE;
+                $this->mgModules[] = new Modulesgarden_Base_Model_Extension_Modulesgarden_Item($type, $module, $moduleDetails->version);
+            }
+            elseif( ! self::isMageModule($module) ) {
+                $this->otherExtensions[] = new Modulesgarden_Base_Model_Extension_Item($module, $moduleDetails->version);
+            }
+        }
+    }
+    
+    protected static function isModulesgardenModule($name) {
+        return strpos($name, 'Modulesgarden_') === 0;
+    }
+    
+    protected static function isMageModule($name) {
+        return strpos($name, 'Mage_') === 0;
+    }
+    
+    protected static function isModulesgardenTheme($name) {
+        return self::isModulesgardenModule($name) AND strpos($name, 'Theme') !== false;
+    }
+    
+    public function getModulesgardenExtensions() {
+        return $this->mgModules;
+    }
+    
+    public function getModulesgardenThemes() {
+        return $this->mgThemes;
+    }
+    
+    public function getOtherExtensions() {
+        return $this->otherExtensions;
+    }
 
     public function getModulesgardenCollection() {
         return $this->_getCollection(true);
@@ -40,12 +85,19 @@ class Modulesgarden_Base_Model_Resource_Extension {
     public function getNonDefaultCollection() {
         return $this->_getCollection(false, false, true);
     }
+    
+    public function getOtherExtensionsCollection() {
+        $collection     = new Varien_Data_Collection();
+        $modulesArray   = (array) Mage::getConfig()->getNode('modules')->children();
+        
+        
+    }
 
     protected function _getCollection($modulesgardenOnly = null, $nonModulesgardenOnly = null, $skipMage = false) {
         $collection = new Varien_Data_Collection();
         $modulesArray = (array) Mage::getConfig()->getNode('modules')->children();
         foreach ($modulesArray as $module => $moduleDetails) {
-            $ext = Mage::getModel('modulesgardenbase/extension');
+            $ext = Mage::getModel('modulesgarden_base/extension');
             $ext->setName($module);
             $ext->setActive((string) $moduleDetails->active == 'true');
             $ext->setCodePool((string) $moduleDetails->codePool);
@@ -105,7 +157,7 @@ class Modulesgarden_Base_Model_Resource_Extension {
         $extToReturn = array();
         $extensions = $this->getExtensionsFromModulesgardenCom();
         foreach ($extensions as $remoteExt) {
-            $ext = Mage::getModel('modulesgardenbase/extension');
+            $ext = Mage::getModel('modulesgarden_base/extension');
             $ext->setFriendlyName($remoteExt->name);
             $this->applyRemoteDetails($ext);
             $extToReturn[] = $ext;

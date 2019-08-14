@@ -112,7 +112,7 @@ class Modulesgarden_Base_Model_Extension extends Varien_Object {
      */
     public function isAlreadyInstalled() {
         $this->_applyVersionFileDetails();
-        $modulesgardenExtensionsInstalled = Mage::getResourceModel('modulesgardenbase/extension')->getModulesgardenCollection();
+        $modulesgardenExtensionsInstalled = Mage::getResourceModel('modulesgarden_base/extension')->getModulesgardenCollection();
         foreach ($modulesgardenExtensionsInstalled as $ext) {
             if (trim(strtolower(htmlspecialchars_decode($ext->getFriendlyName()))) == trim(strtolower(htmlspecialchars_decode($this->getFriendlyName())))) {
                 return true;
@@ -124,7 +124,7 @@ class Modulesgarden_Base_Model_Extension extends Varien_Object {
     protected function _applyRemoteDetails() {
         if (!$this->_remoteDetailsApplied) {
             $this->_applyVersionFileDetails();
-            Mage::getResourceModel('modulesgardenbase/extension')->applyRemoteDetails($this);
+            Mage::getResourceModel('modulesgarden_base/extension')->applyRemoteDetails($this);
             $this->_remoteDetailsApplied = true;
         }
         return $this;
@@ -132,7 +132,7 @@ class Modulesgarden_Base_Model_Extension extends Varien_Object {
 
     protected function _applyVersionFileDetails() {
         if (!$this->_versionFileApplied) {
-            Mage::getResourceModel('modulesgardenbase/extension')->applyVersionFileDetails($this);
+            Mage::getResourceModel('modulesgarden_base/extension')->applyVersionFileDetails($this);
             $this->_versionFileApplied = true;
         }
         return $this;

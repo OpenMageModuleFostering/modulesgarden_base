@@ -27,31 +27,31 @@
 ?>
 
 <div class="modulesgarden_form_container">
-	<div class="content-header skip-header">
-		<h3 class="modulesgardenbase_config_header"><?php echo $this->__('Other Modules'); ?></h3>
-	</div>
+    <div class="content-header skip-header">
+        <h3 class="modulesgardenbase_config_header"><?php echo $this->__('Other Modules'); ?></h3>
+    </div>
 </div>
 
 <div class="modulesgarden_grid_container">
     <div class="grid">
-		<div class="hor-scroll">
-			<table cellspacing="0" class="data">
+        <div class="hor-scroll">
+            <table cellspacing="0" class="data">
                 <thead>
-					<tr class="headings">
-						<th class=" no-link" style="width:50%;"><span class="nobr"><?php echo $this->__('Extension Name'); ?></span></th>
-						<th class=" no-link"><span class="nobr"><?php echo $this->__('Your Version'); ?></span></th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach ($this->getExtensions() as $k => $extension) { ?>
-						<tr class="<?php echo $k%2==0 ? 'even' : ''; ?>">
-							<td class="a-left"><?php echo $extension->getName(); ?></td>
-							<td class="a-left last"><?php echo $extension->getVersion(); ?></td>
-						</tr>
-					<?php } ?>
-				</tbody>
-			</table>
-		</div>
-	</div>
+                    <tr class="headings">
+                        <th class=" no-link" style="width:50%;"><span class="nobr"><?php echo $this->__('Extension Name'); ?></span></th>
+                        <th class=" no-link"><span class="nobr"><?php echo $this->__('Your Version'); ?></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($this->getExtensions() as $k => $extension) { ?>
+                        <tr class="<?php echo $k % 2 == 0 ? 'even' : ''; ?>">
+                            <td class="a-left"><?php echo $extension->getName(); ?></td>
+                            <td class="a-left last"><?php echo $extension->getVersion(); ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
